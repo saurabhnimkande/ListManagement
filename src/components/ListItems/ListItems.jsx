@@ -10,7 +10,7 @@ export const ListItems = ({
   handelChange,
 }) => {
   return (
-    <tr>
+    <tr style={isChecked ? { backgroundColor: "#81D4FA" } : null}>
       <td>
         <input
           type="checkbox"
@@ -23,8 +23,7 @@ export const ListItems = ({
       <td>{index + 1}</td>
 
       <td>
-        {first_name}
-        {last_name}
+        {first_name} {last_name}
       </td>
       <td>{dob}</td>
       <td>{email}</td>

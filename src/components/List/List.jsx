@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData, setUser } from "../../features/User/actions";
 import { ListItems } from "../ListItems/ListItems";
+import { Link } from "react-router-dom";
 import "./List.css";
 export const List = () => {
   const { loading, users, error } = useSelector((state) => ({
@@ -29,18 +30,51 @@ export const List = () => {
       dispatch(setUser(tempData));
     }
   };
-  console.log(users);
-  return (
+
+  const addToFavorite = (e) => {
+    if (localStorage.getItem("listmanagement") === null) {
+      localStorage.setItem("listmanagement", JSON.stringify([]));
+    }
+    let data = JSON.parse(localStorage.getItem("listmanagement"));
+    let favoriteData = users.filter((el) => (el?.isChecked ? true : false));
+
+    favoriteData.forEach((el) => {
+      let bool = false;
+      data.forEach((val) => {
+        if (val._id === el._id) {
+          bool = true;
+        }
+      });
+      if (!bool) {
+        data.push(el);
+      }
+    });
+
+    localStorage.setItem("listmanagement", JSON.stringify(data));
+    console.log(JSON.parse(localStorage.getItem("listmanagement")));
+  };
+
+  return loading ? (
+    <div className="responseImageLoading">
+      <img src="./loading.gif" alt="loading"></img>
+    </div>
+  ) : error ? (
+    <div className="responseImageError">
+      <img src="./error.png" alt="error"></img>
+    </div>
+  ) : (
     <div>
       <div id="buttonsDiv">
         <div>
           <button>Delete Selected</button>
         </div>
         <div>
-          <button>Add Selected to Favorite</button>
+          <button onClick={addToFavorite}>Add Selected to Favorite</button>
         </div>
         <div>
-          <button>Go to Favourates</button>
+          <Link to="/favorite">
+            <button>Go to Favorite</button>
+          </Link>
         </div>
       </div>
       <table>

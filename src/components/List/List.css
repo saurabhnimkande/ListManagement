@@ -6,6 +6,7 @@ td {
 
 table {
   margin-left: 20px;
+  margin-bottom: 50px;
 }
 
 thead,
@@ -25,4 +26,12 @@ tfoot {
   padding-left: 22px;
   gap: 10px;
   margin-bottom: 10px;
+}
+.responseImageError {
+  text-align: center;
+  margin-top: 30px;
+}
+.responseImageLoading {
+  text-align: center;
+  margin-top: 120px;
 }
