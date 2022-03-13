@@ -35,3 +35,19 @@ tfoot {
   text-align: center;
   margin-top: 120px;
 }
+#deleteButton {
+  background-color: #dc3545;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 3px;
+  color: #fcf2f9;
+}
+.favoriteButton {
+  background-color: rgb(36, 121, 36);
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 3px;
+  color: #fcf2f9;
+}

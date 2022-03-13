@@ -7,7 +7,7 @@ import {
 
 export const getUserData = () => (dispatch) => {
   dispatch(getUserLoading());
-  fetch("http://localhost:2525/")
+  fetch("https://listdatabase.herokuapp.com/user")
     .then((e) => e.json())
     .then((e) => dispatch(getUserSuccess(e)))
     .catch((err) => dispatch(getUserError(err)));

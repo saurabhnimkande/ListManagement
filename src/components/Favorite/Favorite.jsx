@@ -19,20 +19,16 @@ export const Favorite = () => {
     getLocalData();
   }, []);
 
-  if (data.length) {
-    console.log("hello");
-  }
-
   return (
     <div>
       <h1 style={{ marginLeft: "20px" }}>Favorite List</h1>
       <Link to="/">
-        <button style={{ marginLeft: "20px", marginBottom: "20px" }}>
+        <button style={{ marginLeft: "20px", marginBottom: "10px" }}>
           Back to list
         </button>
       </Link>
 
-      {data.length ? (
+      {data?.length ? (
         <table>
           <thead>
             <tr>
@@ -64,7 +60,7 @@ export const Favorite = () => {
           </tbody>
         </table>
       ) : (
-        <h1>Favorite List is Empty!</h1>
+        <h1 style={{ marginLeft: "20px" }}>Favorite List is Empty!</h1>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import { ListItems } from "../ListItems/ListItems";
 import { Link } from "react-router-dom";
 import "./List.css";
 export const List = () => {
+  // accessing states form redux
   const { loading, users, error } = useSelector((state) => ({
     loading: state.loading,
     users: state.users,
@@ -16,8 +17,35 @@ export const List = () => {
     dispatch(getUserData());
   }, []);
 
-  console.log(loading);
+  // delete the selected user and update the database and the maximum limit is 20 per request.
+  const deleteSelected = () => {
+    let arr = [];
+    users.forEach((el) => {
+      if (el?.isChecked === true) {
+        arr.push(el._id);
+      }
+    });
+    if (arr.length > 20) {
+      alert("Deletion is restricted to 20 users per Request");
+      return;
+    }
 
+    let updatedData = users.filter((el) => (el?.isChecked ? false : true));
+    dispatch(setUser(updatedData));
+
+    fetch(
+      `https://listdatabase.herokuapp.com/user/delete?array=${JSON.stringify(
+        arr
+      )}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((e) => e.json())
+      .catch((e) => console.log(e));
+  };
+
+  //select all functionlity
   const handelChange = (e) => {
     let { name, checked } = e.target;
     if (name === "selectAll") {
@@ -31,7 +59,9 @@ export const List = () => {
     }
   };
 
-  const addToFavorite = (e) => {
+  //addto favorite functionality using localstorage for storing the favorite list.
+
+  const addToFavorite = () => {
     if (localStorage.getItem("listmanagement") === null) {
       localStorage.setItem("listmanagement", JSON.stringify([]));
     }
@@ -51,7 +81,9 @@ export const List = () => {
     });
 
     localStorage.setItem("listmanagement", JSON.stringify(data));
-    console.log(JSON.parse(localStorage.getItem("listmanagement")));
+    let tempData = users.map((el) => ({ ...el, isChecked: false }));
+    dispatch(setUser(tempData));
+    alert("Users added to favorite");
   };
 
   return loading ? (
@@ -66,14 +98,18 @@ export const List = () => {
     <div>
       <div id="buttonsDiv">
         <div>
-          <button>Delete Selected</button>
+          <button onClick={deleteSelected} id="deleteButton">
+            Delete Selected
+          </button>
         </div>
         <div>
-          <button onClick={addToFavorite}>Add Selected to Favorite</button>
+          <button onClick={addToFavorite} className="favoriteButton">
+            Add Selected to Favorite
+          </button>
         </div>
         <div>
           <Link to="/favorite">
-            <button>Go to Favorite</button>
+            <button className="favoriteButton">Go to Favorite</button>
           </Link>
         </div>
       </div>
