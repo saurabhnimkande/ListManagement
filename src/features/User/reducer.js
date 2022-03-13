@@ -2,6 +2,7 @@ import {
   GET_USER_ERROR,
   GET_USER_LOADING,
   GET_USER_SUCCESS,
+  SET_USER,
 } from "./actionTypes";
 
 const init = { loading: true, users: [], error: false };
@@ -28,6 +29,11 @@ export const reducer = (state = init, { type, payload }) => {
         error: true,
       };
 
+    case SET_USER:
+      return {
+        ...state,
+        users: payload,
+      };
     default:
       return state;
   }

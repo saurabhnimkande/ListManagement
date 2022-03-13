@@ -4,12 +4,21 @@ export const ListItems = ({
   dob,
   email,
   gender,
+  isChecked,
+  _id,
   index,
+  handelChange,
 }) => {
   return (
     <tr>
       <td>
-        <input type="checkbox" className="checkbox"></input>
+        <input
+          type="checkbox"
+          className="checkbox"
+          name={_id}
+          checked={isChecked || false}
+          onChange={handelChange}
+        ></input>
       </td>
       <td>{index + 1}</td>
 
