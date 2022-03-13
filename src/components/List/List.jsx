@@ -1,20 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "../../features/User/actions";
 import { ListItems } from "../ListItems/ListItems";
 import "./List.css";
 export const List = () => {
-  let [userData, setUserData] = useState([]);
+  const { loading, users, error } = useSelector((state) => ({
+    loading: state.loading,
+    users: state.users,
+    error: state.error,
+  }));
 
-  const getUserData = async () => {
-    let data = await fetch("http://localhost:2525/");
-    let res = await data.json();
-    setUserData(res.users);
-  };
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    getUserData();
+    dispatch(getUserData());
   }, []);
+
+  console.log(loading);
   return (
     <div>
+      <div id="buttonsDiv">
+        <div>
+          <button>Delete Selected</button>
+        </div>
+        <div>
+          <button>Add Selected to Favorite</button>
+        </div>
+        <div>
+          <button>Go to Favourates</button>
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -29,7 +43,7 @@ export const List = () => {
           </tr>
         </thead>
         <tbody>
-          {userData.map((el, i) => (
+          {users.map((el, i) => (
             <ListItems {...el} index={i} key={el._id}></ListItems>
           ))}
         </tbody>
